@@ -49,7 +49,7 @@ public class HomePageTests extends BaseTests {
 	}
 	
 	
-	@Test
+	@Test  // Preenchendo o login e validando o usuário logado
 	public void testLoginComSucesso_UsuarioLogado( ) {
 		// Clicar no botão Sign In na home page
 		LoginPage loginPage = homePage.clicarBotaoSignIn();
