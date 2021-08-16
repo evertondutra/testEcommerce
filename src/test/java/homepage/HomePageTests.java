@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.Test;
 
 import base.BaseTests;
+import pages.LoginPage;
 import pages.ProdutoPage;
 
 public class HomePageTests extends BaseTests {
@@ -26,7 +27,7 @@ public class HomePageTests extends BaseTests {
 		assertThat(produtosNoCarrinho, is(0));
 	}
 	
-	@Test
+	@Test  // escolher o item e o preço e valida-los na página do item
 	public void testValidarDetalhesDoProduto_DesrcricaoEValorIguais() {
 		int indice = 0;
 		String nomeProduto_HomePage = homePage.obterNomeProduto(indice);
@@ -45,6 +46,22 @@ public class HomePageTests extends BaseTests {
 		
 		assertThat(nomeProduto_HomePage.toUpperCase(), is (nomeProduto_ProdutoPage.toUpperCase()));
 		assertThat(precoProduto_HomePage, is (precoProduto_ProdutoPage));
+	}
+	
+	
+	@Test
+	public void testLoginComSucesso_UsuarioLogado( ) {
+		// Clicar no botão Sign In na home page
+		LoginPage loginPage = homePage.clicarBotaoSignIn();
+		
+		// Preencher usuário e senha
+		loginPage.preencherEmail("evertonteste@teste.com");
+		loginPage.preencherPassword("teste");
+		// Clicar no botão Sign In para logar
+		loginPage.clicarBotaoSignIn();
+		// Validar se o usuário esta logado de fato
+		assertThat(homePage.estaLogado("Everton Teste"), is (true));
+		
 	}
 
 }

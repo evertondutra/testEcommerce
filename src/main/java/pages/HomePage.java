@@ -23,6 +23,10 @@ public class HomePage {
 	
 	private By precoDosprodutos = By.className("price");
 	
+	private By botaoSignIn = By.cssSelector("#_desktop_user_info span.hidden-sm-down");
+	
+	private By usuarioLogado = By.cssSelector("#_desktop_user_info span.hidden-sm-down");
+	
 	// criando o construtor
 	public HomePage(WebDriver driver) {
 		this.driver = driver;
@@ -68,6 +72,14 @@ public class HomePage {
 	}
 
 	
+// ##### TESTE 4 ####
+	public LoginPage clicarBotaoSignIn() {
+		driver.findElement(botaoSignIn).click();
+		return new LoginPage(driver);
+	}
 	
+	public boolean estaLogado(String texto) {
+		return texto.contentEquals(driver.findElement(usuarioLogado).getText());
+	}
 
 }
