@@ -64,8 +64,9 @@ public class ProdutoPage {
 	}
 	
 	//clicar no botão add to card
-	public void clicarBotaoaddToCard( ) {
+	public ModalProdutoPage clicarBotaoaddToCard( ) {
 		driver.findElement(botaoAddToCard).click();
+		return new ModalProdutoPage(driver);
 	}
 
 }
