@@ -70,6 +70,10 @@ public class HomePageTests extends BaseTests {
 
 	@Test
 	public void incluirProdutoNoCarrinho_ProdutoIncluidoComSucesso() {
+		String tamanhoProduto = "M";
+		String corProduto = "Black";
+		Integer quantidadeProduto = 2;
+		
 		//--Pré condição
 		//verificar se esta logado, se não estiver irá logar
 		if(!homePage.estaLogado("Everton Teste")) {
@@ -84,7 +88,7 @@ public class HomePageTests extends BaseTests {
 		System.out.println(listaOpcoes.get(0));
 		System.out.println("tamanho da lista " + listaOpcoes.size());
 		// * Alterar o tamanho para M
-		produtoPage.selecionaOpcaoDropDown("M");
+		produtoPage.selecionaOpcaoDropDown(tamanhoProduto);
 		
 		listaOpcoes = produtoPage.obterOpcoesSelecionadas();
 		System.out.println(listaOpcoes.get(0));
@@ -94,13 +98,17 @@ public class HomePageTests extends BaseTests {
 		produtoPage.selecionarCorPreta();
 		
 		//Selecionar Quantidade
-		produtoPage.alterarQuantidade(2);
+		produtoPage.alterarQuantidade(quantidadeProduto);
 		
 		//Adicionar no carrinho
 		ModalProdutoPage modalProdutoPage = produtoPage.clicarBotaoaddToCard();
 		
+		//Validações
 		assertTrue(modalProdutoPage.obterMensagemProdutoAdicionado().endsWith("Product successfully added to your shopping cart"));
-	
+		assertThat(modalProdutoPage.obterTamanhoProduto(),is (tamanhoProduto));
+		assertThat(modalProdutoPage.obterCorProduto(), is (corProduto));
+		assertThat(modalProdutoPage.obterQuiantidadeProduto(), is (Integer.toString(quantidadeProduto)));
+		
 	}
 	
 }
