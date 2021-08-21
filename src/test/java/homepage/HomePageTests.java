@@ -2,6 +2,7 @@ package homepage;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import pages.CarrinhoPage;
 import pages.LoginPage;
 import pages.ModalProdutoPage;
 import pages.ProdutoPage;
+import util.Funcoes;
 
 public class HomePageTests extends BaseTests {
 	// o que vou fazer para contar os produtos
@@ -130,12 +132,81 @@ public class HomePageTests extends BaseTests {
 		assertThat(subtotal,is (subtotalCalculado));
 	}
 	
+	
+	// Valores Esperados
+	String esperado_nomeProduto = "Hummingbird printed t-shirt";
+	Double esperado_precoProduto = 19.12;
+	String esperado_tamanhoProduto = "M";
+	String esperado_corProduto = "Black";
+	int esperado_quantidadeProduto = 2;
+	Double esperado_subtotalProduto = esperado_precoProduto * esperado_quantidadeProduto;
+	
+	int obter_numeroItensTotal = esperado_quantidadeProduto;
+	Double esperado_subTotal = esperado_subtotalProduto;
+	Double esperado_shipping = 7.00;
+	Double esperado_totalTaxExclTotal = esperado_subTotal + esperado_shipping;
+	Double esperado_totalTaxIncTotal = esperado_totalTaxExclTotal;
+	Double esperado_taxasTotal = 0.00;
+	
 	@Test
 	public void IrParaCarrinho_InformacoesPersistidas() {
 		//--Pré condiçoes
 		// Produto incluido na tela ModalProdutoPage
 		incluirProdutoNoCarrinho_ProdutoIncluidoComSucesso();
 		CarrinhoPage carrinhoPage = modalProdutoPage.clicaBtnProceedCheckout();
+		
+		//Teste
+		
+		// Validar todos os elementos da tela
+		System.out.println("***TELA DO CARRINHO***");
+		System.out.println(carrinhoPage.obter_nomeProduto());
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_precoProduto()));
+		System.out.println(carrinhoPage.obter_tamanhoProduto());
+		System.out.println(carrinhoPage.obter_corProduto());
+		System.out.println(carrinhoPage.obter_quantidadeProduto());
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_subtotalProduto()));
+		
+		System.out.println("****PAINEIS DE TOTAIS**");
+		System.out.println(Funcoes.removeTextoItemsDevolveInt(carrinhoPage.obter_numeroItensTotal()));
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_subTotal()));
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_shipping()));
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxExclTotal()));
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxIncTotal()));
+		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_taxasTotal()));
+		
+		//Asserções Hamcrest
+		
+		assertThat(carrinhoPage.obter_nomeProduto() , is(esperado_nomeProduto));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_precoProduto()), is(esperado_precoProduto));
+		assertThat(carrinhoPage.obter_tamanhoProduto(), is(esperado_tamanhoProduto));
+		assertThat(carrinhoPage.obter_corProduto(), is(esperado_corProduto));
+		assertThat(Integer.parseInt(carrinhoPage.obter_quantidadeProduto()), is(esperado_quantidadeProduto));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_subtotalProduto()), is(esperado_subtotalProduto));
+		
+		assertThat(Funcoes.removeTextoItemsDevolveInt(carrinhoPage.obter_numeroItensTotal()), is(obter_numeroItensTotal));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_subTotal()), is(esperado_subTotal));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_shipping()), is(esperado_shipping));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxExclTotal()), is(esperado_totalTaxExclTotal));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxIncTotal()), is(esperado_totalTaxIncTotal));
+		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_taxasTotal()), is(esperado_taxasTotal));
+		
+		//Asserções Junit
+		/*
+		assertEquals(carrinhoPage.obter_nomeProduto() , esperado_nomeProduto);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_precoProduto()), esperado_precoProduto);
+		assertEquals(carrinhoPage.obter_tamanhoProduto(), esperado_tamanhoProduto);
+		assertEquals(carrinhoPage.obter_corProduto(), esperado_corProduto);
+		assertEquals(Integer.parseInt(carrinhoPage.obter_quantidadeProduto()), esperado_quantidadeProduto);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_subtotalProduto()), esperado_subtotalProduto);
+		
+		assertEquals(Funcoes.removeTextoItemsDevolveInt(carrinhoPage.obter_numeroItensTotal()), obter_numeroItensTotal);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_subTotal()), esperado_subTotal);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_shipping()), esperado_shipping);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxExclTotal()), esperado_totalTaxExclTotal);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxIncTotal()), esperado_totalTaxIncTotal);
+		assertEquals(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_taxasTotal()), esperado_taxasTotal);
+		*/
+		
 	}
 	
 }
