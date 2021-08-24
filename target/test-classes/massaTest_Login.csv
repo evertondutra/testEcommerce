@@ -1,0 +1,3 @@
+nomeTeste;email;password;nomeUsuario;resultado
+loginValido;evertonteste@teste.com;teste;Everton Teste;positivo
+loginInvalido;evertonteste@teste.com;teste123;Everton Teste;negativo
