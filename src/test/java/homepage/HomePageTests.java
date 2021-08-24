@@ -2,7 +2,6 @@ package homepage;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import base.BaseTests;
 import pages.CarrinhoPage;
+import pages.CheckoutPage;
 import pages.LoginPage;
 import pages.ModalProdutoPage;
 import pages.ProdutoPage;
@@ -148,12 +148,13 @@ public class HomePageTests extends BaseTests {
 	Double esperado_totalTaxIncTotal = esperado_totalTaxExclTotal;
 	Double esperado_taxasTotal = 0.00;
 	
+	CarrinhoPage carrinhoPage;
 	@Test
 	public void IrParaCarrinho_InformacoesPersistidas() {
 		//--Pré condiçoes
 		// Produto incluido na tela ModalProdutoPage
 		incluirProdutoNoCarrinho_ProdutoIncluidoComSucesso();
-		CarrinhoPage carrinhoPage = modalProdutoPage.clicaBtnProceedCheckout();
+		carrinhoPage = modalProdutoPage.clicaBtnProceedCheckout();
 		
 		//Teste
 		
@@ -209,4 +210,19 @@ public class HomePageTests extends BaseTests {
 		
 	}
 	
+	CheckoutPage checkoutPage;
+	@Test
+	public void IrParaCheckout_FreteMeioPagamentoEnderecoListadoOk() {
+		//Pré Condições
+		//Produto Disponivel no Carrinho de Cpmpras
+		IrParaCarrinho_InformacoesPersistidas();
+		
+		//Teste
+		
+		//Clicarno botão
+		checkoutPage = carrinhoPage.clicarBtnProceedToChekout();
+		//Validar informações na tela
+		assertThat(Funcoes.removeCifraoDevolveDouble(checkoutPage.obter_totalTaxaIncTotal()), is(esperado_totalTaxIncTotal));
+		//Preencher informações
+	}
 }

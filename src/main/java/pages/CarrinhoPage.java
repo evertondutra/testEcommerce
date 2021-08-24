@@ -19,6 +19,8 @@ public class CarrinhoPage {
 	private By totalTaxExclTotal = By.cssSelector("div.cart-summary-totals :nth-child(1) span.value");
 	private By totalTaxIncTotal = By.cssSelector("div.cart-summary-totals :nth-child(2) span.value");
 	private By taxasTotal = By.cssSelector("div.cart-summary-totals :nth-child(3) span.value");
+	private By btnProceedToCheckout = By.cssSelector("a.btn-primary ");
+	
 	
 	public CarrinhoPage(WebDriver driver) {
 		this.driver = driver;
@@ -63,6 +65,11 @@ public class CarrinhoPage {
 	public String obter_taxasTotal() {
 		return driver.findElement(taxasTotal).getText();
 	} 
+	
+	public CheckoutPage clicarBtnProceedToChekout() {
+		driver.findElement(btnProceedToCheckout).click();
+		return new CheckoutPage(driver);
+	}
 			                 
 }
 
