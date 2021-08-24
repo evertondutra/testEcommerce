@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import base.BaseTests;
 import pages.CarrinhoPage;
 import pages.CheckoutPage;
+import pages.ConfirmedPage;
 import pages.LoginPage;
 import pages.ModalProdutoPage;
 import pages.ProdutoPage;
@@ -148,6 +149,8 @@ public class HomePageTests extends BaseTests {
 	Double esperado_totalTaxIncTotal = esperado_totalTaxExclTotal;
 	Double esperado_taxasTotal = 0.00;
 	
+	String esperado_nomeCliente = "Everton Teste"; 
+	
 	CarrinhoPage carrinhoPage;
 	@Test
 	public void IrParaCarrinho_InformacoesPersistidas() {
@@ -222,7 +225,59 @@ public class HomePageTests extends BaseTests {
 		//Clicarno botão
 		checkoutPage = carrinhoPage.clicarBtnProceedToChekout();
 		//Validar informações na tela
+		// --validando o valor total
 		assertThat(Funcoes.removeCifraoDevolveDouble(checkoutPage.obter_totalTaxaIncTotal()), is(esperado_totalTaxIncTotal));
+		//assertThat(checkoutPage.obter_nomeCliente(), is(esperado_nomeCliente));
+		
+		// --validando o nome do cliente
+		assertTrue(checkoutPage.obter_nomeCliente().startsWith(esperado_nomeCliente));
+		
 		//Preencher informações
+		checkoutPage.clicar_BtnContinueAddresses();
+		
+		//Validando o valor shipping method
+		String encontrado_shippingValor = checkoutPage.obter_shippingValor();
+		encontrado_shippingValor = Funcoes.removeTexto(encontrado_shippingValor, " tax excl.");
+		Double encontrado_shippingValor_Double = Funcoes.removeCifraoDevolveDouble(encontrado_shippingValor);
+		
+		assertThat(encontrado_shippingValor_Double, is (esperado_shipping));
+		
+		checkoutPage.clicar_BtnContinueShipping();
+		
+		//Validando Payment
+		checkoutPage.clicar_btnPyByCheck();
+		//--Convertendo o valor em boolean
+		String encontrado_Amount = checkoutPage.obter_amountTotal();
+		encontrado_Amount = Funcoes.removeTexto(encontrado_Amount, " (tax incl.)");
+		
+		Double encontrado_AmountDouble = Funcoes.removeCifraoDevolveDouble(encontrado_Amount);
+		
+		//--Validdando Amount
+		assertThat(encontrado_AmountDouble, is (esperado_totalTaxIncTotal));
+		
+		checkoutPage.clicarTermosOfService();
+		
+		
+		
+		
+	}
+	
+	
+	@Test
+	public void finalizarPedido() {
+		IrParaCheckout_FreteMeioPagamentoEnderecoListadoOk();
+		
+		//clicar bot[ao para confirmar pedido
+		ConfirmedPage confirmedPage = checkoutPage.clicar_confirmacaoDePagamento();
+		
+		//Validar valores da tela
+		assertTrue(confirmedPage.obter_textoConfirmacao().endsWith("YOUR ORDER IS CONFIRMED"));
+		
+		assertThat(confirmedPage.obter_confirmaEmail(), is("evertonteste@teste.com"));
+		
+		assertThat(Funcoes.removeCifraoDevolveDouble(confirmedPage.obter_precoTotalProdutos()), is (esperado_subTotal));
+		
+		assertThat(confirmedPage.obter_confirmaMetodoPagamento(),is("Payment method: Payments by check"));
+		
 	}
 }

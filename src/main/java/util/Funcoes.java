@@ -10,5 +10,10 @@ public class Funcoes {
 		texto = texto.replace(" items", "");
 		return Integer.parseInt(texto);
 	}
+	
+	public static String removeTexto(String texto, String textoParaRemover) {
+		texto = texto.replace(textoParaRemover, "");
+		return texto;
+	}
 
 }
