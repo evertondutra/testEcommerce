@@ -54,11 +54,17 @@ public class ModalProdutoPage {
 	}
 	
 	public String obterCorProduto() {
-		return driver.findElements(listaValoresInformados).get(1).getText();
+		if (driver.findElements(listaValoresInformados).size() == 3)
+			return driver.findElements(listaValoresInformados).get(1).getText();
+		else
+			return "N/A";
 	}
 	
 	public String obterQuiantidadeProduto() {
-		return driver.findElements(listaValoresInformados).get(2).getText();
+		if (driver.findElements(listaValoresInformados).size() == 3)
+			return driver.findElements(listaValoresInformados).get(2).getText();
+		else
+			return driver.findElements(listaValoresInformados).get(1).getText();
 	}
 	
 	public String obterSubtotal() {

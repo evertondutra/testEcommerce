@@ -115,15 +115,15 @@ public class ComprarProdutosSteps {
 	public void adiciono_o_produto_no_carrinho_com_tamanho_cor_quantidade(String tamanhoProduto, String corProduto, Integer quantidadeProduto) {
 		
 		List<String> listaOpcoes = produtoPage.obterOpcoesSelecionadas();
-		System.out.println(listaOpcoes.get(0));
-		System.out.println("tamanho da lista " + listaOpcoes.size());
+
 		// * Alterar o tamanho para M
 		produtoPage.selecionaOpcaoDropDown(tamanhoProduto);
 		
 		listaOpcoes = produtoPage.obterOpcoesSelecionadas();
 		
 		// Selecionar Cor
-		produtoPage.selecionarCorPreta();
+		if (!corProduto.equals("N/A"))
+			produtoPage.selecionarCorPreta();
 		
 		//Selecionar Quantidade
 		produtoPage.alterarQuantidade(quantidadeProduto);
@@ -146,7 +146,8 @@ public class ComprarProdutosSteps {
 
 		
 		assertThat(modalProdutoPage.obterTamanhoProduto(),is (tamanhoProduto));
-		assertThat(modalProdutoPage.obterCorProduto(), is (corProduto));
+		if (!corProduto.equals("N/A"))
+			assertThat(modalProdutoPage.obterCorProduto(), is (corProduto));
 		assertThat(modalProdutoPage.obterQuiantidadeProduto(), is (Integer.toString(quantidadeProduto)));
 		
 		
