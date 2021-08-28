@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 		features = "src\\test\\resources\\features\\comprar_produtos.feature",
 		glue     = "steps",
 		tags     = "@fluxopadrao",
-		plugin   = "pretty",
+		plugin   = {"pretty", "html:target/cucumber.html"},
 		monochrome = true
 		)
 public class Runner {
