@@ -1,5 +1,6 @@
 package pages;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-// aqui ficaram os elementos de iteração
+// aqui ficaram os elementos de iteraï¿½ï¿½o
 
 public class HomePage {
 	private WebDriver driver;
@@ -86,6 +87,19 @@ public class HomePage {
 	
 	public void clicarBotaoSignOut() {
 		driver.findElement(botaoSignout).click();
+	}
+	
+	public void carregarPaginaInicial() {
+		driver.get("https://marcelodebittencourt.com/demoprestashop/");
+	}
+	
+	public String obterTituloPagina() {
+		return driver.getTitle();
+	}
+	
+	public boolean estaLogado() {
+		return !"Sign in".contentEquals(driver.findElement(usuarioLogado).getText());
+		
 	}
 
 }

@@ -2,6 +2,7 @@ package base;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +16,7 @@ import com.google.common.io.Files;
 
 import pages.HomePage;
 
-// essa classe terá os comandos básicos de acesso.
+// essa classe terï¿½ os comandos bï¿½sicos de acesso.
 public class BaseTests {
 	
 	private static WebDriver driver;
@@ -23,13 +24,17 @@ public class BaseTests {
 	
 	@BeforeAll  // esta classe roda antes de tudo
 	public static void inicializar() {
+		//localia o webdriver
 		System.setProperty("webdriver.chrome.driver", "C:\\Webdriver\\chromedriver\\92\\chromedriver.exe");
-		driver = new ChromeDriver();
+		//estancia o driver
+	driver = new ChromeDriver();
+		//inclue uma espera implicita de 10 segundos
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
 	@BeforeEach // essa classe roda antes de cada test
 	public void carregarPaginaInicial() {
-		// carregar a página inicial
+		// carregar a pï¿½gina inicial
 		driver.get("https://marcelodebittencourt.com/demoprestashop/");
 		// inicializar a homePage
 		homePage = new HomePage(driver);
@@ -48,7 +53,7 @@ public class BaseTests {
 		}
 	}
 	
-	@AfterAll // depois que terminar a execução de cada classe de test
+	@AfterAll // depois que terminar a execuï¿½ï¿½o de cada classe de test
 	public static void finalizar() {
 		driver.quit();
 	}
